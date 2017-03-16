@@ -49,6 +49,7 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#2A2544'
   }
 })
 

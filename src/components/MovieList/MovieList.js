@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import {
   ListView,
   StyleSheet,
-  Text,
   View
 } from 'react-native'
+import MovieListCell from './MovieListCell'
 
 export default class MovieList extends Component {
   constructor(props) {
@@ -23,10 +23,12 @@ export default class MovieList extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(movie) =>
-            <Text>{movie.title}</Text>
+            <MovieListCell movie={movie} />
           }
         />
       </View>
     );
   }
 }
+
+{/*<Text>{movie.title}</Text>*/}
