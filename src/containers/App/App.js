@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -6,22 +6,22 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchMoviesIfNeeded } from '../../redux/actions/movies'
+import MovieList from '../../components/MovieList/MovieList'
+
+const DEFAULT_CATEGORY = 'ALL'
 
 class App extends Component {
   constructor(props) {
     super(props)
-    // console.log('app construct')
   }
 
   componentDidMount() {
     const { dispatch } = this.props
-    console.log('component did mount')
-    dispatch(fetchMoviesIfNeeded('all'))
+    dispatch(fetchMoviesIfNeeded(DEFAULT_CATEGORY))
   }
 
   render() {
     const { movies } = this.props
-    console.log('movies', movies)
 
     return (
       <View style={styles.container}>
@@ -32,6 +32,7 @@ class App extends Component {
         </View>
 
         <View>
+          <MovieList movies={movies} />
         </View>
 
         <View>
@@ -49,17 +50,9 @@ const styles = StyleSheet.create({
   }
 })
 
-// App.propTypes = {
-//   selectedCategory: PropTypes.string.isRequired,
-//   movies: PropTypes.array.isRequired,
-//   isFetching: PropTypes.bool.isRequired,
-//   lastUpdated: PropTypes.number,
-//   dispatch: PropTypes.func.isRequired
-// }
-
 function mapStateToProps(state) {
-  console.log('mapping state to props')
-  const { selectedCategory, moviesByCategory } = state
+  const { moviesByCategory } = state
+  const selectedCategory = DEFAULT_CATEGORY
   const {
     isFetching,
     lastUpdated,

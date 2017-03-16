@@ -1,17 +1,17 @@
 
-export const REQUEST_POSTS = 'REQUEST_POSTS'
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const REQUEST_MOVIES = 'REQUEST_MOVIES'
+export const RECEIVE_MOVIES = 'RECEIVE_MOVIES'
 
 function requestMovies(category) {
   return {
-    type: REQUEST_POSTS,
+    type: REQUEST_MOVIES,
     category
   }
 }
 
 function receiveMovies(category, json) {
   return {
-    type: RECEIVE_POSTS,
+    type: RECEIVE_MOVIES,
     category,
     movies: json.results,
     receivedAt: Date.now()
@@ -19,7 +19,6 @@ function receiveMovies(category, json) {
 }
 
 function fetchMovies(category) {
-  console.log('fetching movies')
   return dispatch => {
     dispatch(requestMovies(category))
     // return fetch(`https://www.reddit.com/r/${subreddit}.json`)

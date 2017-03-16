@@ -25,7 +25,6 @@ function movies(state = {
 }
 
 function moviesByCategory(state = { }, action) {
-  console.log('reducing moviesByCategory action', action)
   switch (action.type) {
     case RECEIVE_MOVIES:
     case REQUEST_MOVIES:
