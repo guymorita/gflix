@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import {
-  Navigator
+  Navigator,
+  Text,
+  View
 } from 'react-native'
 import Home from './containers/Home/Home'
 import Details from './containers/Details/Details'
 
 export default class App extends Component {
-  render() {
-    const routes = [
-      {title: 'HomePage', index: 0},
-      {title: 'DetailsPage', index: 1}
-    ];
+  state = {
+    selectedTab: 'redTab',
+  }
 
+  routes = [
+    {title: 'HomePage', index: 0},
+    {title: 'DetailsPage', index: 1}
+  ]
+
+  render() {
     return (
       <Navigator
-        initialRoute={routes[0]}
-        initialRouteStack={routes}
+        initialRoute={this.routes[0]}
+        initialRouteStack={this.routes}
         renderScene={this.renderScene.bind(this)}
        />
     );
@@ -30,7 +36,23 @@ export default class App extends Component {
         return (<Details navigator={navigator} />);
     }
   }
-
 }
 
-// {/*navigationBar={CustomNavBar}*/}
+
+// navigationBar={
+//   <Navigator.NavigationBar
+//     routeMapper={{
+//       LeftButton: (route, navigator, index, navState) =>
+//         { return (<Text>Top Ranking</Text>); },
+//       RightButton: (route, navigator, index, navState) =>
+//         { return (<Text>Now Playing</Text>); },
+//       Title: () => null,
+//     }}
+//     style={{
+//       backgroundColor: 'purple',
+//       bottom: 0,
+//       top: null
+//     }}
+//   />
+// }
+
