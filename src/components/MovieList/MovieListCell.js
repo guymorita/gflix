@@ -25,10 +25,10 @@ export default class MovieListCell extends Component {
           />
         </View>
         <View style={styles.descBox}>
-          <Text style={styles.baseText}>
+          <Text style={[styles.baseText, styles.title]}>
             {title}
           </Text>
-          <Text style={styles.baseText}>
+          <Text numberOfLines={6} style={styles.baseText}>
             {overview}
           </Text>
         </View>
@@ -52,7 +52,12 @@ const styles = StyleSheet.create({
     height: 150
   },
   baseText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Avenir',
+    fontWeight: 'bold'
+  },
+  title: {
+    fontSize: 18,
+    marginBottom: 3
   }
-
 })

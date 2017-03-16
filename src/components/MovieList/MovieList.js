@@ -30,5 +30,3 @@ export default class MovieList extends Component {
     );
   }
 }
-
-{/*<Text>{movie.title}</Text>*/}
