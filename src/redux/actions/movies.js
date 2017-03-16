@@ -21,8 +21,7 @@ function receiveMovies(category, json) {
 function fetchMovies(category) {
   return dispatch => {
     dispatch(requestMovies(category))
-    // return fetch(`https://www.reddit.com/r/${subreddit}.json`)
-    return fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed`)
+    return fetch(`https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2007-03-15&with_genres=878&sort_by=popularity.desc&api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed`)
       .then(response => response.json())
       .then(json => dispatch(receiveMovies(category, json)))
   }

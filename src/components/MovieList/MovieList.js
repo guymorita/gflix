@@ -18,12 +18,14 @@ export default class MovieList extends Component {
   }
 
   render() {
+    const { navigator } = this.props
+
     return (
       <View>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(movie) =>
-            <MovieListCell movie={movie} />
+            <MovieListCell movie={movie} navigator={navigator} />
           }
         />
       </View>

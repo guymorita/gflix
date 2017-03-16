@@ -4,12 +4,19 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
+
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
 
 export default class MovieListCell extends Component {
+  _onPressButton() {
+    const { navigator } = this.props
+    navigator.push({title: 'DetailsPage'})
+  }
+
   render() {
     const { movie } = this.props
     const { poster_path, overview, title } = movie
@@ -17,22 +24,24 @@ export default class MovieListCell extends Component {
     const imgUrl = `${IMAGE_BASE_URL}${imgSize}/${poster_path}`
 
     return (
-      <View style={{flexDirection: 'row'}}>
-        <View style={styles.imgBox}>
-          <Image
-            style={styles.thumbnail}
-            source={{uri: imgUrl}}
-          />
+      <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+        <View style={{flexDirection: 'row'}}>
+          <View style={styles.imgBox}>
+            <Image
+              style={styles.thumbnail}
+              source={{uri: imgUrl}}
+            />
+          </View>
+          <View style={styles.descBox}>
+            <Text style={[styles.baseText, styles.title]}>
+              {title}
+            </Text>
+            <Text numberOfLines={6} style={styles.baseText}>
+              {overview}
+            </Text>
+          </View>
         </View>
-        <View style={styles.descBox}>
-          <Text style={[styles.baseText, styles.title]}>
-            {title}
-          </Text>
-          <Text numberOfLines={6} style={styles.baseText}>
-            {overview}
-          </Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

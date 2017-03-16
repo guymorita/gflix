@@ -10,18 +10,14 @@ import MovieList from '../../components/MovieList/MovieList'
 
 const DEFAULT_CATEGORY = 'ALL'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
+class Home extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(fetchMoviesIfNeeded(DEFAULT_CATEGORY))
   }
 
   render() {
-    const { movies } = this.props
+    const { movies, navigator } = this.props
 
     return (
       <View style={styles.container}>
@@ -33,7 +29,7 @@ class App extends Component {
 
         <View>
           {movies.length > 0 &&
-            <MovieList movies={movies} />
+            <MovieList movies={movies} navigator={navigator} />
           }
         </View>
 
@@ -73,4 +69,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(Home)
