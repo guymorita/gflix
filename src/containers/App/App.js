@@ -32,7 +32,9 @@ class App extends Component {
         </View>
 
         <View>
-          <MovieList movies={movies} />
+          {movies.length > 0 &&
+            <MovieList movies={movies} />
+          }
         </View>
 
         <View>

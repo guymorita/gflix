@@ -1,5 +1,4 @@
 
-import { combineReducers } from 'redux'
 import {
   REQUEST_MOVIES, RECEIVE_MOVIES
 } from '../actions/movies'
