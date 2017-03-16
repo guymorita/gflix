@@ -12,14 +12,14 @@ import {
   View
 } from 'react-native';
 
-import Movies from './app/movies';
+import Index from './src/index';
 
 export default class gflix extends Component {
   render() {
     return (
-      <Movies />
+      <Index />
     );
   }
 }
 
-AppRegistry.registerComponent('gflix', () => gflix);
+AppRegistry.registerComponent('gflix', () => Index);
