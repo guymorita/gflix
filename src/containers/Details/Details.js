@@ -27,40 +27,40 @@ class Details extends Component {
     const { currentMovieId } = details
 
     const selectedCategory = moviesByCategory.selectedCategory
-    const moviesBySelction = moviesByCategory[selectedCategory]
+    const moviesBySelection = moviesByCategory[selectedCategory]
 
-    const moviesLoaded = moviesBySelction && moviesBySelction.movies && moviesBySelction.movies.length
-    let movie = {}
-    let imgUrl = 'http://www.stub.com/stub.jpg'
+    const moviesLoaded = moviesBySelection && moviesBySelection.movies && moviesBySelection.movies.length
 
-    if (moviesLoaded) {
-      movie = moviesByCategory[selectedCategory].movies.find((value) => {
-        return value.id === currentMovieId
-      })
-
-      if (movie) {
-        const imgSize = 'w1000'
-        const backdropPath = movie.backdrop_path
-        imgUrl = `${config.movieDbImgBaseUrl}${imgSize}${backdropPath}`
-        this.setState({
-          imgUrl,
-          movie
-        })
-
-        const prefetch = Image.prefetch(imgUrl)
-        prefetch.then(() => {
-          this.setState({
-            imgLoaded: true
-          })
-        })
-      }
+    if (!moviesLoaded) {
+      return
     }
+
+    const movie = moviesByCategory[selectedCategory].movies.find((value) => {
+      return value.id === currentMovieId
+    })
+
+    if (!movie) {
+      return
+    }
+
+    const imgSize = 'w1000'
+    const backdropPath = movie.backdrop_path
+    const imgUrl = `${config.movieDbImgBaseUrl}${imgSize}${backdropPath}`
+    this.setState({
+      imgUrl,
+      movie
+    })
+
+    const prefetch = Image.prefetch(imgUrl)
+    prefetch.then(() => {
+      this.setState({
+        imgLoaded: true
+      })
+    })
   }
 
   render() {
     const movie = this.state.movie
-
-
     const backArrowImg = require('./iconArrowLeft.png')
 
     return (
