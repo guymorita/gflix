@@ -5,12 +5,18 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 import { connect } from 'react-redux'
 import config from '../../config/config'
 
 class Details extends Component {
+  _onPressButton() {
+    const { navigator } = this.props
+    navigator.pop()
+  }
+
   render() {
     console.log('rendering')
     const { details, moviesByCategory} = this.props
@@ -21,7 +27,7 @@ class Details extends Component {
 
     const moviesLoaded = moviesBySelction && moviesBySelction.movies && moviesBySelction.movies.length
     let movie = {}
-    let imgUrl = 'http://www.google.com'
+    let imgUrl = 'http://www.stub.com/stub.jpg'
 
     if (moviesLoaded) {
       movie = moviesByCategory[selectedCategory].movies.find((value) => {
@@ -35,23 +41,28 @@ class Details extends Component {
       }
     }
 
+    const backArrowImg = require('./iconArrowLeft.png')
 
     return (
       <View>
         {movie &&
           <View>
-            <View>
-              <Image source={{uri: imgUrl}} style={styles.imageBackground}>
-                <View style={styles.grayBox}>
-                  <Text style={[styles.baseText, styles.titleText]}>
-                    {movie.title}
-                  </Text>
-                  <Text style={styles.baseText}>
-                    {movie.overview}
-                  </Text>
-                </View>
-              </Image>
-            </View>
+            <Image source={{uri: imgUrl}} style={styles.imageBackground}>
+              <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+                <Image
+                  source={backArrowImg}
+                  style={styles.backArrowImg}
+                />
+              </TouchableOpacity>
+              <View style={styles.grayBox}>
+                <Text style={[styles.baseText, styles.titleText]}>
+                  {movie.title}
+                </Text>
+                <Text style={styles.baseText}>
+                  {movie.overview}
+                </Text>
+              </View>
+            </Image>
           </View>
         }
       </View>
@@ -65,6 +76,12 @@ const styles = StyleSheet.create({
   imageBackground: {
     resizeMode: 'cover',
     height: height
+  },
+  backArrowImg: {
+    height: 35,
+    width: 35,
+    margin: 15,
+    opacity: 0.9
   },
   grayBox: {
     marginTop: height - 200,
