@@ -73,7 +73,7 @@ class Home extends Component {
           {this._renderContent('#414A8C', 'Top Ranking')}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          systemIcon="most-viewed"
+          systemIcon="most-recent"
           selected={this.state.selectedTab === 'nowPlaying'}
           title="Now Playing"
           onPress={() => {

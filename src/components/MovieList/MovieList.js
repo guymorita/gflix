@@ -58,8 +58,8 @@ class MovieList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filterText, movies } = nextProps
-    const filteredMovieList = this._filterMovies(movies, filterText)
+    const { filterText, movies, selectedTab } = nextProps
+    const filteredMovieList = this._filterMovies(movies, filterText, selectedTab)
     this.setState({
       filterText,
       dataSource: this.state.ds.cloneWithRows(filteredMovieList)
