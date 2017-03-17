@@ -44,7 +44,11 @@ class Home extends Component {
 
         <View>
           {movies.length > 0 &&
-            <MovieList movies={movies} navigator={navigator} filterText={this.state.filterText} />
+            <MovieList
+              movies={movies}
+              navigator={navigator}
+              filterText={this.state.filterText}
+            />
           }
         </View>
       </View>

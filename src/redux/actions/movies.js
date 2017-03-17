@@ -11,37 +11,39 @@ function requestMovies(category) {
   }
 }
 
-function receiveMovies(category, json) {
+function receiveMovies(category, json, nextPage) {
   return {
     type: RECEIVE_MOVIES,
     category,
     movies: json.results,
-    receivedAt: Date.now()
+    receivedAt: Date.now(),
+    page: nextPage
   }
 }
 
-function fetchMovies(category) {
+function fetchMovies(state, category) {
+  const movies = state.moviesByCategory[category]
+  const page = movies && movies.page || 0
+  const nextPage = page + 1
+
   return dispatch => {
     dispatch(requestMovies(category))
-    return fetch(`${config.movieDbBaseUrl}discover/movie?primary_release_date.gte=2007-03-15&with_genres=878&sort_by=popularity.desc&api_key=${config.movieDbApiKey}`)
+    return fetch(`${config.movieDbBaseUrl}discover/movie?primary_release_date.gte=2007-03-15&with_genres=878&page=${nextPage}&sort_by=popularity.desc&api_key=${config.movieDbApiKey}`)
       .then(response => response.json())
-      .then(json => dispatch(receiveMovies(category, json)))
+      .then(json => dispatch(receiveMovies(category, json, nextPage)))
   }
 }
 
 function shouldFetchMovies(state, category) {
   const movies = state.moviesByCategory[category]
-  if (!movies) {
-    return true
-  } else if (movies.isFetching) {
-    return false
-  }
+  return true
 }
 
 export function fetchMoviesIfNeeded(category) {
   return (dispatch, getState) => {
-    if (shouldFetchMovies(getState(), category)) {
-      return dispatch(fetchMovies(category))
+    const state = getState()
+    if (shouldFetchMovies(state, category)) {
+      return dispatch(fetchMovies(state, category))
     }
   }
 }

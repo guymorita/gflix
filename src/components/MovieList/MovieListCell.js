@@ -18,7 +18,7 @@ class MovieListCell extends Component {
     const { navigator, viewDetails } = this.props
     viewDetails(movieId)
     navigator.push({
-      title: 'DetailsPage',
+      title: 'DetailsPage'
     })
   }
 

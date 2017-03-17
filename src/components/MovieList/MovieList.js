@@ -5,9 +5,12 @@ import {
   StyleSheet,
   View
 } from 'react-native'
-import MovieListCell from './MovieListCell'
+import { connect } from 'react-redux'
 
-export default class MovieList extends Component {
+import MovieListCell from './MovieListCell'
+import { fetchMoviesIfNeeded } from '../../redux/actions/movies'
+
+class MovieList extends Component {
   constructor(props) {
     super(props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -21,6 +24,11 @@ export default class MovieList extends Component {
 
   state = {
     filterText: ''
+  }
+
+  _onEndReached() {
+    const { dispatch, selectedCategory } = this.props
+    dispatch(fetchMoviesIfNeeded(selectedCategory))
   }
 
   _filterMovies(movies, filterText) {
@@ -55,10 +63,26 @@ export default class MovieList extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(movie) =>
-            <MovieListCell movie={movie} navigator={navigator} />
+            <MovieListCell movie={movie} navigator={navigator}/>  
           }
+          onEndReachedThreshold={100}
+          onEndReached={() => {
+            this._onEndReached()
+          }}
+          enableEmptySections={false}
         />
       </View>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { moviesByCategory } = state
+  const selectedCategory = moviesByCategory.selectedCategory
+
+  return {
+    selectedCategory
+  }
+}
+
+export default connect(mapStateToProps)(MovieList)

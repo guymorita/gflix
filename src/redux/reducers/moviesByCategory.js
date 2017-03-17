@@ -7,7 +7,8 @@ const DEFAULT_CATEGORY = 'ALL'
 
 const initialStateMovie = {
   isFetching: false,
-  movies: []
+  movies: [],
+  page: 1
 }
 
 const initialStateCategory = {
@@ -21,10 +22,13 @@ function movies(state = initialStateMovie, action) {
         isFetching: true,
       })
     case RECEIVE_MOVIES:
+      const diffPages = state.page !== action.page
+      const movies = diffPages ? state.movies.concat(action.movies) : action.movies
       return Object.assign({}, state, {
         isFetching: false,
-        movies: action.movies,
-        lastUpdated: action.receivedAt
+        movies: movies,
+        lastUpdated: action.receivedAt,
+        page: action.page
       })
     default:
       return state
