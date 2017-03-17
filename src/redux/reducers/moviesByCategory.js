@@ -3,10 +3,18 @@ import {
   REQUEST_MOVIES, RECEIVE_MOVIES
 } from '../actions/movies'
 
-function movies(state = {
+const DEFAULT_CATEGORY = 'ALL'
+
+const initialStateMovie = {
   isFetching: false,
   movies: []
-}, action) {
+}
+
+const initialStateCategory = {
+  selectedCategory: DEFAULT_CATEGORY
+}
+
+function movies(state = initialStateMovie, action) {
   switch (action.type) {
     case REQUEST_MOVIES:
       return Object.assign({}, state, {
@@ -23,7 +31,7 @@ function movies(state = {
   }
 }
 
-function moviesByCategory(state = { }, action) {
+export default function moviesByCategory(state = initialStateCategory, action) {
   switch (action.type) {
     case RECEIVE_MOVIES:
     case REQUEST_MOVIES:
@@ -34,5 +42,3 @@ function moviesByCategory(state = { }, action) {
       return state
   }
 }
-
-export default moviesByCategory

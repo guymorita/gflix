@@ -8,7 +8,6 @@ const initialState = {
 }
 
 export default function details(state = initialState, action) {
-  console.log('reducing details', action, action && action.movieId)
   switch (action.type) {
     case VIEW_DETAILS:
       return Object.assign({}, state, {

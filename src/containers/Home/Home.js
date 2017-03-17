@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import {
   StyleSheet,
@@ -9,15 +10,14 @@ import { connect } from 'react-redux'
 import { fetchMoviesIfNeeded } from '../../redux/actions/movies'
 import MovieList from '../../components/MovieList/MovieList'
 
-const DEFAULT_CATEGORY = 'ALL'
-
 class Home extends Component {
   state = {
     selectedTab: 'redTab'
   }
+
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchMoviesIfNeeded(DEFAULT_CATEGORY))
+    const { dispatch, selectedCategory } = this.props
+    dispatch(fetchMoviesIfNeeded(selectedCategory))
   }
 
   _renderContent = (color: string, pageText: string, num?: number) => {
@@ -87,12 +87,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   const { moviesByCategory } = state
-  const selectedCategory = DEFAULT_CATEGORY
+  const selectedCategory = moviesByCategory.selectedCategory
   const {
     isFetching,
     lastUpdated,
     movies: movies
-  } = moviesByCategory[selectedCategory] || {
+  } = moviesByCategory[moviesByCategory.selectedCategory] || {
     isFetching: true,
     movies: []
   }

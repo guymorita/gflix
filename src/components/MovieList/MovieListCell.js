@@ -11,22 +11,26 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { viewDetails } from '../../redux/actions/details'
-
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
+import config from '../../config/config'
 
 class MovieListCell extends Component {
   _onPressButton(movieId) {
     const { navigator, viewDetails } = this.props
     viewDetails(movieId)
-    navigator.push({title: 'DetailsPage'})
+    navigator.push({
+      title: 'DetailsPage',
+      herro: 'dsfkjfds',
+      props: {
+        movieId
+      }
+    })
   }
 
   render() {
     const { movie } = this.props
-    const { id } = movie
-    const { poster_path, overview, title } = movie
+    const { id, poster_path, overview, title } = movie
     const imgSize = 'w500'
-    const imgUrl = `${IMAGE_BASE_URL}${imgSize}/${poster_path}`
+    const imgUrl = `${config.movieDbImgBaseUrl}${imgSize}${poster_path}`
 
     return (
       <TouchableOpacity onPress={this._onPressButton.bind(this, id)}>
