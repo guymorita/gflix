@@ -13,7 +13,7 @@ import MovieList from '../../components/MovieList/MovieList'
 
 class Home extends Component {
   state = {
-    selectedTab: 'redTab',
+    selectedTab: 'topRanking',
     filterText: ''
   }
 
@@ -48,6 +48,7 @@ class Home extends Component {
               movies={movies}
               navigator={navigator}
               filterText={this.state.filterText}
+              selectedTab={this.state.selectedTab}
             />
           }
         </View>
@@ -61,27 +62,26 @@ class Home extends Component {
         tintColor="white"
         barTintColor="darkslateblue">
         <TabBarIOS.Item
-          systemIcon="most-viewed"
+          systemIcon="top-rated"
           title="Top Ranking"
-          selected={this.state.selectedTab === 'blueTab'}
+          selected={this.state.selectedTab === 'topRanking'}
           onPress={() => {
             this.setState({
-              selectedTab: 'blueTab',
+              selectedTab: 'topRanking',
             });
           }}>
-          {this._renderContent('#414A8C', 'Blue Tab')}
+          {this._renderContent('#414A8C', 'Top Ranking')}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          systemIcon="top-rated"
-          badgeColor="black"
-          selected={this.state.selectedTab === 'redTab'}
+          systemIcon="most-viewed"
+          selected={this.state.selectedTab === 'nowPlaying'}
           title="Now Playing"
           onPress={() => {
             this.setState({
-              selectedTab: 'redTab',
+              selectedTab: 'nowPlaying',
             });
           }}>
-          {this._renderContent('#783E33', 'Red Tab')}
+          {this._renderContent('#783E33', 'Now Playing')}
         </TabBarIOS.Item>
       </TabBarIOS>
     );

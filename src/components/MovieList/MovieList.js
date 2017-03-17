@@ -14,10 +14,12 @@ class MovieList extends Component {
   constructor(props) {
     super(props)
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    const { movies } = props
+    const { movies, filterText, selectedTab } = props
+
+    const filteredMovies = this._filterMovies(movies, filterText, selectedTab)
    
     this.state = {
-      dataSource: ds.cloneWithRows(movies),
+      dataSource: ds.cloneWithRows(filteredMovies),
       ds: ds
     }
   }
@@ -31,8 +33,9 @@ class MovieList extends Component {
     dispatch(fetchMoviesIfNeeded(selectedCategory))
   }
 
-  _filterMovies(movies, filterText) {
+  _filterMovies(movies, filterText, selectedTab) {
     const lowerSearchTerm = filterText.toLowerCase()
+    const filterNowPlaying = selectedTab && selectedTab === 'nowPlaying'
 
     return movies.filter((movie) => {
       const lowerTitle = movie.title.toLowerCase()
@@ -42,13 +45,21 @@ class MovieList extends Component {
       const containsSearchTerm = containsTitle || containsOverview
       const didSearch = lowerSearchTerm.length > 0
 
+      const dateReleased = new Date(movie.release_date)
+      const nowPlaying = dateReleased.getFullYear() >= 2017
+      
+      const hideNotPlaying = filterNowPlaying && !nowPlaying
+      if (hideNotPlaying) {
+        return false
+      }
+
       return !didSearch || containsSearchTerm
     })
   }
 
   componentWillReceiveProps(nextProps) {
-    const { filterText } = nextProps
-    const filteredMovieList = this._filterMovies(nextProps.movies, nextProps.filterText)
+    const { filterText, movies } = nextProps
+    const filteredMovieList = this._filterMovies(movies, filterText)
     this.setState({
       filterText,
       dataSource: this.state.ds.cloneWithRows(filteredMovieList)
