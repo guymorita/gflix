@@ -14,6 +14,11 @@ import { viewDetails } from '../../redux/actions/details'
 import config from '../../config/config'
 
 class MovieListCell extends Component {
+  state = {
+    imgLoaded: false,
+    imgUrl: ''
+  }
+
   _onPressButton(movieId) {
     const { navigator, viewDetails } = this.props
     viewDetails(movieId)
@@ -22,20 +27,46 @@ class MovieListCell extends Component {
     })
   }
 
-  render() {
+  componentWillMount() {
     const { movie } = this.props
-    const { id, poster_path, overview, title } = movie
+    const { poster_path } = movie
     const imgSize = 'w500'
     const imgUrl = `${config.movieDbImgBaseUrl}${imgSize}${poster_path}`
+    this.setState({
+      imgUrl
+    })
+
+    const prefetchImg = Image.prefetch(imgUrl)
+    prefetchImg.then(() =>{
+      this.setState({
+        imgLoaded: true
+      })
+    })
+
+  }
+
+  render() {
+    const { movie } = this.props
+    const { id, overview, title } = movie
 
     return (
       <TouchableOpacity onPress={this._onPressButton.bind(this, id)}>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.imgBox}>
-            <Image
-              style={styles.thumbnail}
-              source={{uri: imgUrl}}
-            />
+            {!this.state.imgLoaded &&
+              <Image
+                style={styles.loading}
+                source={require('./gears.gif')}
+              />
+            }
+            {this.state.imgLoaded &&
+              <Image
+                style={styles.thumbnail}
+                source={{uri: this.state.imgUrl}}
+                cache='reload'
+              />            
+            }
+
           </View>
           <View style={styles.descBox}>
             <Text style={[styles.baseText, styles.title]}>
@@ -60,6 +91,12 @@ const styles = StyleSheet.create({
     flex: 0.7,
     margin: 5,
     paddingTop: 5
+  },
+  loading: {
+    marginTop: 20,
+    marginBottom: 10,
+    height: 110,
+    width: 110
   },
   thumbnail: {
     margin: 5,
