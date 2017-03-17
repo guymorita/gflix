@@ -18,7 +18,6 @@ class Details extends Component {
   }
 
   render() {
-    console.log('rendering')
     const { details, moviesByCategory} = this.props
     const { currentMovieId } = details
 

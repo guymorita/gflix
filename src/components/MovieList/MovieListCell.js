@@ -19,10 +19,6 @@ class MovieListCell extends Component {
     viewDetails(movieId)
     navigator.push({
       title: 'DetailsPage',
-      herro: 'dsfkjfds',
-      props: {
-        movieId
-      }
     })
   }
 

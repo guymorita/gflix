@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TabBarIOS,
   Text,
+  TextInput,
   View
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -12,7 +13,14 @@ import MovieList from '../../components/MovieList/MovieList'
 
 class Home extends Component {
   state = {
-    selectedTab: 'redTab'
+    selectedTab: 'redTab',
+    filterText: ''
+  }
+
+  _filterTextChange(filterText) {
+    this.setState({
+      filterText
+    })
   }
 
   componentDidMount() {
@@ -26,14 +34,17 @@ class Home extends Component {
     return(
       <View style={styles.container}>
         <View>
-          <Text>
-            Search Bar - Here
-          </Text>
+          <TextInput
+            style={styles.searchBar}
+            onChangeText={(filterText) => this._filterTextChange(filterText)}
+            placeholder='Search here...'
+            value={this.state.filterText}
+          />
         </View>
 
         <View>
           {movies.length > 0 &&
-            <MovieList movies={movies} navigator={navigator} />
+            <MovieList movies={movies} navigator={navigator} filterText={this.state.filterText} />
           }
         </View>
 
@@ -82,6 +93,14 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2A2544'
+  },
+  searchBar: {
+    height: 40,
+    backgroundColor: 'white',
+    color: 'purple',
+    opacity: 0.9,
+    borderRadius: 5,
+    margin: 4
   }
 })
 
