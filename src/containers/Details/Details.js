@@ -12,12 +12,17 @@ import { connect } from 'react-redux'
 import config from '../../config/config'
 
 class Details extends Component {
+  state = {
+    movie: {},
+    imgLoaded: false
+  }
+
   _onPressButton() {
     const { navigator } = this.props
     navigator.pop()
   }
 
-  render() {
+  componentWillMount() {
     const { details, moviesByCategory} = this.props
     const { currentMovieId } = details
 
@@ -37,22 +42,46 @@ class Details extends Component {
         const imgSize = 'w1000'
         const backdropPath = movie.backdrop_path
         imgUrl = `${config.movieDbImgBaseUrl}${imgSize}${backdropPath}`
+        this.setState({
+          imgUrl,
+          movie
+        })
+
+        const prefetch = Image.prefetch(imgUrl)
+        prefetch.then(() => {
+          this.setState({
+            imgLoaded: true
+          })
+        })
       }
     }
+  }
+
+  render() {
+    const movie = this.state.movie
+
 
     const backArrowImg = require('./iconArrowLeft.png')
 
     return (
-      <View>
-        {movie &&
+      <View style={styles.container}>
+        {Object.keys(movie).length > 0 &&
           <View>
-            <Image source={{uri: imgUrl}} style={styles.imageBackground}>
+            <Image source={{uri: this.state.imgUrl}} style={styles.imageBackground}>
               <TouchableOpacity onPress={this._onPressButton.bind(this)}>
                 <Image
                   source={backArrowImg}
                   style={styles.backArrowImg}
                 />
               </TouchableOpacity>
+              <View style={styles.loadingBox}>
+                {!this.state.imgLoaded &&
+                  <Image
+                    style={styles.loading}
+                    source={require('../../components/MovieList/gears.gif')}
+                  />
+                }
+              </View>
               <View style={styles.grayBox}>
                 <Text style={[styles.baseText, styles.titleText]}>
                   {movie.title}
@@ -72,6 +101,9 @@ class Details extends Component {
 const {height, width} = Dimensions.get('window')
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#2A2544'
+  },
   imageBackground: {
     resizeMode: 'cover',
     height: height
@@ -81,6 +113,14 @@ const styles = StyleSheet.create({
     width: 35,
     margin: 15,
     opacity: 0.9
+  },
+  loadingBox: {
+    alignItems: 'center',
+    flex: 1
+  },
+  loading: {
+    marginTop: 100,
+    alignItems: 'center'
   },
   grayBox: {
     marginTop: height - 200,
