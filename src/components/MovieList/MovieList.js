@@ -69,7 +69,7 @@ class MovieList extends Component {
           onEndReached={() => {
             this._onEndReached()
           }}
-          enableEmptySections={false}
+          enableEmptySections={true}
         />
       </View>
     );
