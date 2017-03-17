@@ -47,12 +47,6 @@ class Home extends Component {
             <MovieList movies={movies} navigator={navigator} filterText={this.state.filterText} />
           }
         </View>
-
-        <View>
-          <Text>
-            Nav Bar
-          </Text>
-        </View>
       </View>
     );
   }
@@ -92,7 +86,8 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2A2544'
+    backgroundColor: '#2A2544',
+    flex: 1
   },
   searchBar: {
     height: 40,
