@@ -7,24 +7,29 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+import { viewDetails } from '../../redux/actions/details'
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/'
 
-export default class MovieListCell extends Component {
-  _onPressButton() {
-    const { navigator } = this.props
+class MovieListCell extends Component {
+  _onPressButton(movieId) {
+    const { navigator, viewDetails } = this.props
+    viewDetails(movieId)
     navigator.push({title: 'DetailsPage'})
   }
 
   render() {
     const { movie } = this.props
+    const { id } = movie
     const { poster_path, overview, title } = movie
     const imgSize = 'w500'
     const imgUrl = `${IMAGE_BASE_URL}${imgSize}/${poster_path}`
 
     return (
-      <TouchableOpacity onPress={this._onPressButton.bind(this)}>
+      <TouchableOpacity onPress={this._onPressButton.bind(this, id)}>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.imgBox}>
             <Image
@@ -70,3 +75,8 @@ const styles = StyleSheet.create({
     marginBottom: 3
   }
 })
+
+export default connect(
+  null,
+  dispatch => bindActionCreators({ viewDetails }, dispatch
+))(MovieListCell)

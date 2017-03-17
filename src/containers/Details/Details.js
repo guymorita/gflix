@@ -4,8 +4,14 @@ import {
   Text,
   View
 } from 'react-native'
+import { connect } from 'react-redux'
 
-export default class Details extends Component {
+class Details extends Component {
+  constructor(props) {
+    super(props)
+    console.log('this.props', this.props)
+  }
+
   render() {
     return (
       <View>
@@ -16,3 +22,12 @@ export default class Details extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const { details } = state
+
+  return {
+    details
+  }
+}
+
+export default connect(mapStateToProps)(Details)

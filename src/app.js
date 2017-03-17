@@ -39,20 +39,3 @@ export default class App extends Component {
 }
 
 
-// navigationBar={
-//   <Navigator.NavigationBar
-//     routeMapper={{
-//       LeftButton: (route, navigator, index, navState) =>
-//         { return (<Text>Top Ranking</Text>); },
-//       RightButton: (route, navigator, index, navState) =>
-//         { return (<Text>Now Playing</Text>); },
-//       Title: () => null,
-//     }}
-//     style={{
-//       backgroundColor: 'purple',
-//       bottom: 0,
-//       top: null
-//     }}
-//   />
-// }
-
