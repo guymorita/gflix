@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import {
-  Navigator,
-  Text,
-  View
+  Navigator
 } from 'react-native'
 import Home from './containers/Home/Home'
 import Details from './containers/Details/Details'

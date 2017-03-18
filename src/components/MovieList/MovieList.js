@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import {
   ListView,
   Platform,
-  StyleSheet,
   View
 } from 'react-native'
 import { connect } from 'react-redux'

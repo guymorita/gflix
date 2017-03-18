@@ -5,7 +5,6 @@ import {
   ScrollView,
   StyleSheet,
   TabBarIOS,
-  Text,
   TextInput,
   TouchableOpacity,
   View
@@ -64,7 +63,7 @@ class Home extends Component {
     );
   }
 
-  _renderTabBarContent = (selectedTab: string) => {
+  _renderTabBarContent = (selectedTab) => {
     const { movies, navigator } = this.props
 
     return(
