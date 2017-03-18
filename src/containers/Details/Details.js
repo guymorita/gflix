@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import {
   Dimensions,
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -123,13 +124,22 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   grayBox: {
-    marginTop: height - 200,
     padding: 20,
     flex: 1,
     width: width,
-    justifyContent: 'flex-end',
     backgroundColor: '#2A2544',
-    opacity: 0.9
+    opacity: 0.9,
+    ...Platform.select({
+      ios: {
+        justifyContent: 'flex-end',
+        marginTop: height - 200
+      },
+      android: {
+        justifyContent: 'center',
+        marginTop: 200,
+        paddingBottom: 50
+      }
+    })
   },
   baseText: {
     padding: 15,

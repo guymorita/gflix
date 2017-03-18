@@ -1,13 +1,18 @@
 
 import React, { Component } from 'react'
 import {
+  Platform,
+  ScrollView,
   StyleSheet,
   TabBarIOS,
   Text,
   TextInput,
+  TouchableOpacity,
   View
 } from 'react-native'
 import { connect } from 'react-redux'
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
+
 import { fetchMoviesIfNeeded } from '../../redux/actions/movies'
 import MovieList from '../../components/MovieList/MovieList'
 
@@ -28,7 +33,38 @@ class Home extends Component {
     dispatch(fetchMoviesIfNeeded(selectedCategory))
   }
 
-  _renderContent = (color: string, pageText: string, num?: number) => {
+  _renderTabBarIOS(tabs) {
+    return (
+      <TabBarIOS
+        tintColor="white"
+        barTintColor="darkslateblue">
+        <TabBarIOS.Item
+          systemIcon="top-rated"
+          title="Top Ranking"
+          selected={this.state.selectedTab === tabs[0].key}
+          onPress={() => {
+            this.setState({
+              selectedTab: tabs[0].key,
+            });
+          }}>
+          {this._renderTabBarContent(tabs[0].key)}
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          systemIcon="most-recent"
+          selected={this.state.selectedTab === tabs[1].key}
+          title="Now Playing"
+          onPress={() => {
+            this.setState({
+              selectedTab: tabs[1].key,
+            });
+          }}>
+          {this._renderTabBarContent(tabs[1].key)}
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    );
+  }
+
+  _renderTabBarContent = (selectedTab: string) => {
     const { movies, navigator } = this.props
 
     return(
@@ -48,7 +84,7 @@ class Home extends Component {
               movies={movies}
               navigator={navigator}
               filterText={this.state.filterText}
-              selectedTab={this.state.selectedTab}
+              selectedTab={selectedTab}
             />
           }
         </View>
@@ -56,35 +92,36 @@ class Home extends Component {
     );
   }
 
-  render() {
+  _renderTabBarAndroid(tabs) {
     return (
-      <TabBarIOS
-        tintColor="white"
-        barTintColor="darkslateblue">
-        <TabBarIOS.Item
-          systemIcon="top-rated"
-          title="Top Ranking"
-          selected={this.state.selectedTab === 'topRanking'}
-          onPress={() => {
-            this.setState({
-              selectedTab: 'topRanking',
-            });
-          }}>
-          {this._renderContent('#414A8C', 'Top Ranking')}
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          systemIcon="most-recent"
-          selected={this.state.selectedTab === 'nowPlaying'}
-          title="Now Playing"
-          onPress={() => {
-            this.setState({
-              selectedTab: 'nowPlaying',
-            });
-          }}>
-          {this._renderContent('#783E33', 'Now Playing')}
-        </TabBarIOS.Item>
-      </TabBarIOS>
+      <ScrollableTabView renderTabBar={() => <DefaultTabBar />} ref={(tabView) => { this.tabView = tabView; }}>
+        <ScrollView tabLabel={tabs[0].name} style={styles.tabView}>
+          {this._renderTabBarContent(tabs[0].key)}
+        </ScrollView>
+        <ScrollView tabLabel={tabs[1].name} style={styles.tabView}>
+          {this._renderTabBarContent(tabs[1].key)}
+        </ScrollView>
+      </ScrollableTabView>
     );
+  }
+
+  render() {
+    const tabs = [
+      {
+        key: 'topRanking',
+        name: 'Top Ranking'
+      },
+      {
+        key: 'nowPlaying',
+        name: 'Now Playing'
+      }
+    ]
+
+    if (Platform.OS == 'ios') {
+      return this._renderTabBarIOS(tabs)
+    } else if (Platform.OS == 'android') {
+      return this._renderTabBarAndroid(tabs)
+    }
   }
 }
 
@@ -92,6 +129,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2A2544',
     flex: 1
+  },
+  tabView: {
+    flex: 1,
+    backgroundColor: '#2A2544',
   },
   searchBar: {
     height: 40,

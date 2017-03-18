@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import {
   ListView,
+  Platform,
   StyleSheet,
   View
 } from 'react-native'
@@ -30,7 +31,9 @@ class MovieList extends Component {
 
   _onEndReached() {
     const { dispatch, selectedCategory } = this.props
-    dispatch(fetchMoviesIfNeeded(selectedCategory))
+    if (Platform.OS === 'ios') {
+      dispatch(fetchMoviesIfNeeded(selectedCategory))
+    }
   }
 
   _filterMovies(movies, filterText, selectedTab) {
@@ -46,7 +49,7 @@ class MovieList extends Component {
       const didSearch = lowerSearchTerm.length > 0
 
       const dateReleased = new Date(movie.release_date)
-      const nowPlaying = dateReleased.getFullYear() >= 2017
+      const nowPlaying = dateReleased.getFullYear() >= 2016
       
       const hideNotPlaying = filterNowPlaying && !nowPlaying
       if (hideNotPlaying) {
