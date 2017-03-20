@@ -27,7 +27,7 @@ class MovieListCell extends Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { movie } = this.props
     const { poster_path } = movie
     const imgSize = 'w500'
@@ -42,7 +42,6 @@ class MovieListCell extends Component {
         imgLoaded: true
       })
     })
-
   }
 
   render() {
@@ -64,7 +63,7 @@ class MovieListCell extends Component {
                 style={styles.thumbnail}
                 source={{uri: this.state.imgUrl}}
                 cache='reload'
-              />            
+              />
             }
 
           </View>

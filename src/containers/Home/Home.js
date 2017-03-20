@@ -111,8 +111,8 @@ class Home extends Component {
         name: 'Top Ranking'
       },
       {
-        key: 'nowPlaying',
-        name: 'Now Playing'
+        key: 'mostRecent',
+        name: 'Most Recent'
       }
     ]
 

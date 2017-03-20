@@ -17,7 +17,7 @@ class MovieList extends Component {
     const { movies, filterText, selectedTab } = props
 
     const filteredMovies = this._filterMovies(movies, filterText, selectedTab)
-   
+
     this.state = {
       dataSource: ds.cloneWithRows(filteredMovies),
       ds: ds
@@ -37,7 +37,7 @@ class MovieList extends Component {
 
   _filterMovies(movies, filterText, selectedTab) {
     const lowerSearchTerm = filterText.toLowerCase()
-    const filterNowPlaying = selectedTab && selectedTab === 'nowPlaying'
+    const filterMostRecent = selectedTab && selectedTab === 'mostRecent'
 
     return movies.filter((movie) => {
       const lowerTitle = movie.title.toLowerCase()
@@ -48,10 +48,10 @@ class MovieList extends Component {
       const didSearch = lowerSearchTerm.length > 0
 
       const dateReleased = new Date(movie.release_date)
-      const nowPlaying = dateReleased.getFullYear() >= 2016
-      
-      const hideNotPlaying = filterNowPlaying && !nowPlaying
-      if (hideNotPlaying) {
+      const mostRecent = dateReleased.getFullYear() >= 2016
+
+      const hideNotRecent = filterMostRecent && !mostRecent
+      if (hideNotRecent) {
         return false
       }
 
@@ -69,20 +69,22 @@ class MovieList extends Component {
   }
 
   render() {
-    const { navigator } = this.props
+    const { filterText, navigator } = this.props
 
     return (
       <View>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(movie) =>
-            <MovieListCell movie={movie} navigator={navigator}/>  
+            <MovieListCell movie={movie} navigator={navigator}/>
           }
           onEndReachedThreshold={100}
           onEndReached={() => {
-            this._onEndReached()
+            if (!filterText) {
+              this._onEndReached()
+            }
           }}
-          enableEmptySections={true}
+          pageSize={20}
         />
       </View>
     );
